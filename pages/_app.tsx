@@ -1,11 +1,24 @@
 import { useState } from 'react';
 import NextApp, { AppProps, AppContext } from 'next/app';
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { UserContext } from '../lib/context';
+import { useUserData } from '../lib/hooks';
 
-export default function App(props: AppProps & { colorScheme: ColorScheme }) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+  colorScheme: ColorScheme;
+};
+
+export default function App(props: AppPropsWithLayout) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
 
@@ -15,21 +28,25 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
   };
 
+  const userData = useUserData();
+
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <Head>
-        <title>Mantine next example</title>
+        <title>MealWeek - Recipes and plan your meals!</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider>
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+      <UserContext.Provider value={userData}>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+            <NotificationsProvider>{getLayout(<Component {...pageProps} />)}</NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </UserContext.Provider>
     </>
   );
 }
