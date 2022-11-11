@@ -8,6 +8,12 @@ export default createStyles((theme) => ({
     }`,
   },
 
+  headerPosition: {
+    [theme.fn.largerThan('md')]: {
+      justifyContent: 'flex-end',
+    },
+  },
+
   user: {
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,

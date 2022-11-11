@@ -50,10 +50,8 @@ export function LightHeader({ user, children }: LightHeaderProps) {
 
       <Container fluid px="xl">
         <Flex
-          mih={50}
-          bg="rgba(0, 0, 0, .3)"
-          gap="md"
-          justify="flex-start"
+          className={classes.headerPosition}
+          justify="space-between"
           align="center"
           direction="row"
           wrap="wrap"
