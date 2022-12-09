@@ -1,12 +1,11 @@
-import { auth } from '../../lib/firebase';
 import { Button } from '@mantine/core';
 
 export function SignOutButton({}) {
   return (
-    <main>
-      <Button variant="default" color="gray" onClick={() => auth.signOut()}>
+    <>
+      <Button variant="default" color="gray">
         Sign out
       </Button>
-    </main>
+    </>
   );
 }

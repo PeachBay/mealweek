@@ -12,6 +12,7 @@ import {
   IconLogout,
 } from '@tabler/icons';
 import Image from 'next/image';
+import { signOutHandle } from '../../lib/firebase';
 import useStyles from './DashboardNavbar.styles';
 import MantineLogo from '../../public/MantineLogo.svg';
 
@@ -55,12 +56,12 @@ export default function DashboardNavbar(props: NavbarProps) {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <a href="#" className={classes.link}>
           <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
           <span>Change account</span>
         </a>
 
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <a href="#" className={classes.link} onClick={() => signOutHandle()}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>

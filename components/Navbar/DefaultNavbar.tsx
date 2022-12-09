@@ -147,8 +147,8 @@ export function DefaultNavbar() {
   ));
 
   return (
-    <Box pb={120}>
-      <Header height={60} px="md">
+    <Box>
+      <Header height={60}>
         <Group position="apart" sx={{ height: '100%' }}>
           <Image src={MantineLogo} />
 
@@ -210,8 +210,12 @@ export function DefaultNavbar() {
           </Group>
 
           <Group className={classes.hiddenMobile}>
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button component="a" href="/login" variant="default">
+              Log in
+            </Button>
+            <Button component="a" href="/signup">
+              Sign up
+            </Button>
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
@@ -252,8 +256,12 @@ export function DefaultNavbar() {
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button component="a" href="/login" variant="default">
+              Log in
+            </Button>
+            <Button component="a" href="/register">
+              Sign up
+            </Button>
           </Group>
         </ScrollArea>
       </Drawer>

@@ -6,8 +6,9 @@ import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-import { UserContext } from '../lib/context';
-import { useUserData } from '../lib/hooks';
+import initAuth from '../lib/initAuth';
+
+initAuth();
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,8 +29,6 @@ export default function App(props: AppPropsWithLayout) {
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
   };
 
-  const userData = useUserData();
-
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -40,13 +39,11 @@ export default function App(props: AppPropsWithLayout) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <UserContext.Provider value={userData}>
-        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-            <NotificationsProvider>{getLayout(<Component {...pageProps} />)}</NotificationsProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
-      </UserContext.Provider>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+          <NotificationsProvider>{getLayout(<Component {...pageProps} />)}</NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
     </>
   );
 }

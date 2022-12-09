@@ -23,17 +23,23 @@ import {
 } from '@tabler/icons';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import DashboardNavbar from '../Navbar/DashboardNavbar';
-import useStyles from './LightHeader.styles';
+import useStyles from './TopHeader.styles';
 
-interface LightHeaderProps {
-  user: { name: string; image: string };
+// Context
+import { useUserContext } from '../../lib/UserContext';
+
+// Lib
+import { signOutHandle } from '../../lib/firebase';
+
+interface TopHeaderProps {
   children: React.ReactNode;
 }
 
-export function LightHeader({ user, children }: LightHeaderProps) {
+export function TopHeader({ children }: TopHeaderProps) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [opened, setOpened] = useState(false);
+  const user = useUserContext();
 
   return (
     <div className={classes.header}>
@@ -77,7 +83,12 @@ export function LightHeader({ user, children }: LightHeaderProps) {
                   className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                 >
                   <Group spacing={7}>
-                    <Avatar src={user.image} alt={user.name} radius="xl" size={40} />
+                    <Avatar
+                      src={user.user?.photoURL}
+                      alt={user.user?.displayName}
+                      radius="xl"
+                      size={40}
+                    />
                     <Text
                       className={classes.userName}
                       weight={500}
@@ -85,7 +96,7 @@ export function LightHeader({ user, children }: LightHeaderProps) {
                       sx={{ lineHeight: 1 }}
                       mr={3}
                     >
-                      {user.name}
+                      {user.username}
                     </Text>
                     <IconChevronDown size={12} stroke={1.5} />
                   </Group>
@@ -113,7 +124,12 @@ export function LightHeader({ user, children }: LightHeaderProps) {
                 <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
                   Change account
                 </Menu.Item>
-                <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>Logout</Menu.Item>
+                <Menu.Item
+                  icon={<IconLogout size={14} stroke={1.5} />}
+                  onClick={() => signOutHandle()}
+                >
+                  Logout
+                </Menu.Item>
 
                 <Menu.Divider />
 
