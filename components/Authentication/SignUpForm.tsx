@@ -137,7 +137,7 @@ export function SignUpForm() {
                 <b>Keep your recipes</b> – all recipes in one page, easy to share
               </List.Item>
               <List.Item>
-                <b>We plan for you</b> – no more {'"What do we eat today?"'}
+                <b>We plan for you</b> – no more &quot;What do we eat today?&quot;
               </List.Item>
             </List>
           </Flex>

@@ -96,7 +96,7 @@ export function TopHeader({ children }: TopHeaderProps) {
                       sx={{ lineHeight: 1 }}
                       mr={3}
                     >
-                      {user.username}
+                      {user.username ? user.username : user.user?.displayName}
                     </Text>
                     <IconChevronDown size={12} stroke={1.5} />
                   </Group>

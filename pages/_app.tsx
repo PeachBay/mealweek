@@ -41,7 +41,9 @@ export default function App(props: AppPropsWithLayout) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider>{getLayout(<Component {...pageProps} />)}</NotificationsProvider>
+          <NotificationsProvider position="top-center">
+            {getLayout(<Component {...pageProps} />)}
+          </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </>
