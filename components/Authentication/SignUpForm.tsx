@@ -1,6 +1,8 @@
 import {
   Paper,
   TextInput,
+  PasswordInput,
+  Progress,
   Button,
   Title,
   Text,
@@ -13,16 +15,16 @@ import {
   List,
   ThemeIcon,
 } from '@mantine/core';
-import { useInputState } from '@mantine/hooks';
+import { useForm } from '@mantine/form';
 import { IconCheck } from '@tabler/icons';
 import NextImage from 'next/image';
 
 // Component & Assets
 import useStyles from './SignUpForm.styles';
-import { PasswordStrength } from './PasswordStrength';
 import { TwitterButton } from '../SocialButtons/SocialButtons';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
 import Logo from '../../public/favicon.svg';
+import { PasswordRequirement, requirements, getStrength } from './PasswordStrength';
 
 // Utils
 import { signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase';
@@ -30,10 +32,47 @@ import { signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase
 // Page
 export function SignUpForm() {
   const { classes } = useStyles();
-  const [name, setName] = useInputState('');
-  const [username, setUserName] = useInputState('');
-  const [email, setEmail] = useInputState('');
-  const [password, setPassword] = useInputState('');
+
+  // Form validation
+  const form = useForm({
+    initialValues: { name: '', username: '', email: '', password: '' },
+    validateInputOnChange: true,
+
+    // functions will be used to validate values at corresponding key
+    validate: {
+      name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+      username: (value) => (value.length < 3 ? 'Username must have at least 3 letters' : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: (value) => (value.length < 6 ? 'Password must have at least 6 letters' : null),
+    },
+  });
+
+  // Password strength
+  const strength = getStrength(form.values.password);
+  const checks = requirements.map((requirement, index) => (
+    <PasswordRequirement
+      key={index}
+      label={requirement.label}
+      meets={requirement.re.test(form.values.password)}
+    />
+  ));
+  const bars = Array(4)
+    .fill(0)
+    .map((_, index) => (
+      <Progress
+        styles={{ bar: { transitionDuration: '0ms' } }}
+        value={
+          form.values.password.length > 0 && index === 0
+            ? 100
+            : strength >= ((index + 1) / 4) * 100
+            ? 100
+            : 0
+        }
+        color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
+        key={index}
+        size={4}
+      />
+    ));
 
   return (
     <Flex h="100%" mih="100%">
@@ -47,40 +86,61 @@ export function SignUpForm() {
               Join MealWeek
             </Title>
 
-            <TextInput
-              label="Name"
-              value={name}
-              onChange={setName}
-              placeholder="Izuku Midoriya"
-              required
-              mb={5}
-            />
-            <TextInput
-              label="Username"
-              value={username}
-              onChange={setUserName}
-              placeholder="Deku"
-              required
-              mb={5}
-            />
-            <TextInput
-              label="Email"
-              value={email}
-              onChange={setEmail}
-              placeholder="deku@ua.edu"
-              required
-              mb={5}
-            />
-            <PasswordStrength value={password} setValue={setPassword} />
+            <form>
+              <TextInput
+                label="Name"
+                placeholder="Izuku Midoriya"
+                required
+                mb={5}
+                {...form.getInputProps('name')}
+              />
+              <TextInput
+                label="Username"
+                placeholder="Deku"
+                required
+                mb={5}
+                {...form.getInputProps('username')}
+              />
+              <TextInput
+                label="Email"
+                placeholder="deku@ua.edu"
+                required
+                mb={5}
+                {...form.getInputProps('email')}
+              />
+              <PasswordInput
+                placeholder="Your password"
+                label="Password"
+                required
+                {...form.getInputProps('password')}
+              />
+              <Group spacing={5} grow mt="xs" mb="md">
+                {bars}
+              </Group>
 
-            <Button
-              fullWidth
-              mt="xl"
-              size="md"
-              onClick={() => signUpWithEmailAndPassword(name, username, email, password)}
-            >
-              Signup
-            </Button>
+              <PasswordRequirement
+                label="Has at least 6 characters"
+                meets={form.values.password.length > 5}
+              />
+              {checks}
+
+              <Button
+                fullWidth
+                mt="xl"
+                size="md"
+                disabled={!form.isValid()}
+                onClick={() =>
+                  signUpWithEmailAndPassword(
+                    form.values.name,
+                    form.values.username,
+                    form.values.email,
+                    form.values.password
+                  )
+                }
+              >
+                Signup
+              </Button>
+            </form>
 
             <Divider label="Or signup with your social account" labelPosition="center" my="lg" />
 

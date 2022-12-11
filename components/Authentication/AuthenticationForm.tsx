@@ -13,12 +13,17 @@ import {
   Box,
   Image,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { useInputState } from '@mantine/hooks';
 import NextImage from 'next/image';
+
+// Component & Assets
+import useStyles from './AuthenticationForm.styles';
 import { TwitterButton } from '../SocialButtons/SocialButtons';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
-import useStyles from './AuthenticationForm.styles';
 import Logo from '../../public/favicon.svg';
+
+// Lib
 import { signInWithGoogle, signInEmailAndPassword } from '../../lib/firebase';
 
 export function AuthenticationForm() {
@@ -87,7 +92,7 @@ export function AuthenticationForm() {
 
             <Text align="center" mt="md">
               Forgot your password?{' '}
-              <Anchor<'a'> href="/resetpassword" weight={700}>
+              <Anchor<'a'> href="/reset-password" weight={700}>
                 Reset it
               </Anchor>
             </Text>
