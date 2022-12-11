@@ -21,12 +21,11 @@ import NextImage from 'next/image';
 
 // Component & Assets
 import useStyles from './SignUpForm.styles';
-import { TwitterButton } from '../SocialButtons/SocialButtons';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
 import Logo from '../../public/favicon.svg';
 import { PasswordRequirement, requirements, getStrength } from './PasswordStrength';
 
-// Utils
+// Lib
 import { signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase';
 
 // Page
@@ -154,7 +153,6 @@ export function SignUpForm() {
               >
                 Google
               </Button>
-              <TwitterButton radius="xl">Twitter</TwitterButton>
             </Group>
 
             <Text align="center" mt="md">

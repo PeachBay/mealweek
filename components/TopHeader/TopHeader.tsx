@@ -9,6 +9,11 @@ import {
   Menu,
   Burger,
   Drawer,
+  Modal,
+  Title,
+  Button,
+  ThemeIcon,
+  Box,
 } from '@mantine/core';
 import {
   IconLogout,
@@ -20,6 +25,7 @@ import {
   IconTrash,
   IconSwitchHorizontal,
   IconChevronDown,
+  IconAlertTriangle,
 } from '@tabler/icons';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import DashboardNavbar from '../Navbar/DashboardNavbar';
@@ -29,7 +35,7 @@ import useStyles from './TopHeader.styles';
 import { useUserContext } from '../../lib/UserContext';
 
 // Lib
-import { signOutHandle } from '../../lib/firebase';
+import { signOutHandle, deleteAccount } from '../../lib/firebase';
 
 interface TopHeaderProps {
   children: React.ReactNode;
@@ -39,6 +45,7 @@ export function TopHeader({ children }: TopHeaderProps) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [modalToDelete, setModalToDelete] = useState(false);
   const user = useUserContext();
 
   return (
@@ -53,6 +60,42 @@ export function TopHeader({ children }: TopHeaderProps) {
       >
         <DashboardNavbar>{children}</DashboardNavbar>
       </Drawer>
+
+      <Modal
+        centered
+        opened={modalToDelete}
+        onClose={() => setModalToDelete(false)}
+        styles={{
+          header: { position: 'absolute', top: '20px', right: '20px' },
+        }}
+      >
+        <Flex gap="md">
+          <ThemeIcon radius="xl" size="xl" color="red">
+            <IconAlertTriangle />
+          </ThemeIcon>
+
+          <Box>
+            <Title order={3} mb={10}>
+              Delete my account
+            </Title>
+
+            <Text mb={15} c="dimmed" size="sm">
+              Are you sure you want to delete your account? All of your data will be permanently
+              removed. This action cannot be undone.
+            </Text>
+          </Box>
+        </Flex>
+
+        <Group position="right">
+          <Button variant="outline" color="gray" onClick={() => setModalToDelete(false)}>
+            Cancel
+          </Button>
+
+          <Button color="red" onClick={deleteAccount}>
+            Delete
+          </Button>
+        </Group>
+      </Modal>
 
       <Container fluid px="xl">
         <Flex
@@ -96,7 +139,7 @@ export function TopHeader({ children }: TopHeaderProps) {
                       sx={{ lineHeight: 1 }}
                       mr={3}
                     >
-                      {user.username ? user.username : user.user?.displayName}
+                      {user.username ? user.username : user.user?.displaName}
                     </Text>
                     <IconChevronDown size={12} stroke={1.5} />
                   </Group>
@@ -137,7 +180,11 @@ export function TopHeader({ children }: TopHeaderProps) {
                 <Menu.Item icon={<IconPlayerPause size={14} stroke={1.5} />}>
                   Pause subscription
                 </Menu.Item>
-                <Menu.Item color="red" icon={<IconTrash size={14} stroke={1.5} />}>
+                <Menu.Item
+                  color="red"
+                  icon={<IconTrash size={14} stroke={1.5} />}
+                  onClick={() => setModalToDelete(true)}
+                >
                   Delete account
                 </Menu.Item>
               </Menu.Dropdown>

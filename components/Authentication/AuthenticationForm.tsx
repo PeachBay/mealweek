@@ -2,7 +2,6 @@ import {
   Paper,
   TextInput,
   PasswordInput,
-  Checkbox,
   Button,
   Title,
   Text,
@@ -14,12 +13,10 @@ import {
   Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useInputState } from '@mantine/hooks';
 import NextImage from 'next/image';
 
 // Component & Assets
 import useStyles from './AuthenticationForm.styles';
-import { TwitterButton } from '../SocialButtons/SocialButtons';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
 import Logo from '../../public/favicon.svg';
 
@@ -28,8 +25,18 @@ import { signInWithGoogle, signInEmailAndPassword } from '../../lib/firebase';
 
 export function AuthenticationForm() {
   const { classes } = useStyles();
-  const [email, setEmail] = useInputState('');
-  const [password, setPassword] = useInputState('');
+
+  // Form validation
+  const form = useForm({
+    initialValues: { email: '', password: '' },
+    validateInputOnChange: true,
+
+    // functions will be used to validate values at corresponding key
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: (value) => (value.length < 6 ? 'Password must have at least 6 letters' : null),
+    },
+  });
 
   return (
     <Flex h="100%" mih="100%">
@@ -53,35 +60,34 @@ export function AuthenticationForm() {
               >
                 Google
               </Button>
-              <TwitterButton radius="xl">Twitter</TwitterButton>
             </Group>
 
             <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-            <TextInput
-              label="Email address"
-              value={email}
-              onChange={setEmail}
-              placeholder="deku@ua.edu"
-              size="md"
-            />
-            <PasswordInput
-              label="Password"
-              value={password}
-              onChange={setPassword}
-              placeholder="Your password"
-              mt="md"
-              size="md"
-            />
-            <Checkbox label="Keep me logged in" mt="xl" size="md" />
-            <Button
-              fullWidth
-              mt="xl"
-              size="md"
-              onClick={() => signInEmailAndPassword(email, password)}
-            >
-              Login
-            </Button>
+            <form>
+              <TextInput
+                label="Email address"
+                placeholder="deku@ua.edu"
+                size="md"
+                {...form.getInputProps('email')}
+              />
+              <PasswordInput
+                label="Password"
+                placeholder="Your password"
+                mt="md"
+                size="md"
+                {...form.getInputProps('password')}
+              />
+              <Button
+                fullWidth
+                mt="xl"
+                size="md"
+                disabled={!form.isValid()}
+                onClick={() => signInEmailAndPassword(form.values.email, form.values.password)}
+              >
+                Login
+              </Button>
+            </form>
 
             <Text align="center" mt="md">
               Don&apos;t have an account?{' '}
