@@ -1,3 +1,6 @@
+import { useState, useEffect, useCallback } from 'react';
+import debounce from 'lodash.debounce';
+import every from 'lodash.every';
 import {
   Paper,
   TextInput,
@@ -14,10 +17,15 @@ import {
   Container,
   List,
   ThemeIcon,
+  Center,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconCheck } from '@tabler/icons';
+import { IconX, IconCheck, IconInfoCircle } from '@tabler/icons';
 import NextImage from 'next/image';
+
+// Lib
+import { doc, getDoc } from 'firebase/firestore';
+import { db, signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase';
 
 // Component & Assets
 import useStyles from './SignUpForm.styles';
@@ -25,12 +33,12 @@ import { GoogleIcon } from '../SocialButtons/GoogleIcon';
 import Logo from '../../public/favicon.svg';
 import { PasswordRequirement, requirements, getStrength } from './PasswordStrength';
 
-// Lib
-import { signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase';
-
 // Page
 export function SignUpForm() {
   const { classes } = useStyles();
+  const [usernameValid, setUsernameValid] = useState(false);
+  const [showUsernameText, setShowUsernameText] = useState(false);
+  const [passwordMeets, setPasswordMeets] = useState(false);
 
   // Form validation
   const form = useForm({
@@ -38,16 +46,22 @@ export function SignUpForm() {
     validateInputOnChange: true,
 
     // functions will be used to validate values at corresponding key
-    validate: {
-      name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
-      username: (value) => (value.length < 3 ? 'Username must have at least 3 letters' : null),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (value.length < 6 ? 'Password must have at least 6 letters' : null),
-    },
+    validate: (values) => ({
+      name: values.name.length < 2 ? 'Name must have at least 2 letters' : null,
+      username:
+        values.username.length < 3
+          ? 'Username must have at least 2 letters'
+          : usernameValid
+          ? 'Your username is not available'
+          : null,
+      email: /^\S+@\S+$/.test(values.email) ? null : 'Invalid email',
+      password: passwordMeets ? null : 'Your password is too weak',
+    }),
   });
 
   // Password strength
   const strength = getStrength(form.values.password);
+  // passwords requirements
   const checks = requirements.map((requirement, index) => (
     <PasswordRequirement
       key={index}
@@ -55,6 +69,7 @@ export function SignUpForm() {
       meets={requirement.re.test(form.values.password)}
     />
   ));
+
   const bars = Array(4)
     .fill(0)
     .map((_, index) => (
@@ -72,6 +87,36 @@ export function SignUpForm() {
         size={4}
       />
     ));
+
+  const checkUsername = useCallback(
+    debounce(async (username) => {
+      if (username.length <= 2) {
+        setShowUsernameText(false);
+      }
+
+      if (username.length >= 3) {
+        const usernameDoc = doc(db, 'usernames', username);
+        const docSnap = await getDoc(usernameDoc);
+
+        if (docSnap.exists()) {
+          setUsernameValid(true);
+          setShowUsernameText(true);
+        } else {
+          setUsernameValid(false);
+          setShowUsernameText(true);
+        }
+      }
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    checkUsername(form.values.username);
+  }, [form.values.username]);
+
+  useEffect(() => {
+    setPasswordMeets(every(checks, ['props.meets', true]));
+  }, [form.values.password]);
 
   return (
     <Flex h="100%" mih="100%">
@@ -98,8 +143,34 @@ export function SignUpForm() {
                 placeholder="Deku"
                 required
                 mb={5}
-                {...form.getInputProps('username')}
+                value={form.values.username}
+                onChange={(event) => form.setFieldValue('username', event.target.value)}
               />
+              {showUsernameText ? (
+                usernameValid ? (
+                  <Text c="red" size="sm">
+                    <Center inline>
+                      <IconX size={14} stroke={1.5} />
+                      <Box ml={7}>Username is taken!</Box>
+                    </Center>
+                  </Text>
+                ) : (
+                  <Text c="teal" size="sm">
+                    <Center inline>
+                      <IconCheck size={14} stroke={1.5} />
+                      <Box ml={7}>Username is available!</Box>
+                    </Center>
+                  </Text>
+                )
+              ) : (
+                <Text c="gray.5" size="sm">
+                  <Center inline>
+                    <IconInfoCircle size={14} stroke={1.5} />
+                    <Box ml={7}>Username must be unique</Box>
+                  </Center>
+                </Text>
+              )}
+
               <TextInput
                 label="Email"
                 placeholder="deku@ua.edu"
