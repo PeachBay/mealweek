@@ -27,9 +27,8 @@ function UserContextProvider({ children }: UserContextProviderInterface) {
     let unsubscribe;
 
     if (user) {
-      unsubscribe = onSnapshot(doc(db, 'users', user.uid), (doc) => {
-        console.log('Current data: ', doc.data()?.username);
-        setUsername(doc.data()?.username);
+      unsubscribe = onSnapshot(doc(db, 'users', user.uid), (d) => {
+        setUsername(d.data()?.username);
       });
     } else {
       setUsername(null);

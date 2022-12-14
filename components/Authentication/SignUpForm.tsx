@@ -260,7 +260,7 @@ export function SignUpForm() {
               }
             >
               <List.Item>
-                <b>{"It's free!"}</b> – no trial, no subscription :)
+                <b>It&apos;s free!</b> – no trial, no subscription :)
               </List.Item>
               <List.Item>
                 <b>Keep your recipes</b> – all recipes in one page, easy to share
