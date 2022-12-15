@@ -21,7 +21,6 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconX, IconCheck, IconInfoCircle } from '@tabler/icons';
-import NextImage from 'next/image';
 
 // Lib
 import { doc, getDoc } from 'firebase/firestore';
@@ -30,7 +29,7 @@ import { db, signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/fire
 // Component & Assets
 import useStyles from './SignUpForm.styles';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
-import Logo from '../../public/favicon.svg';
+import NavbarLogo from '../Navbar/NavbarLogo';
 import { PasswordRequirement, requirements, getStrength } from './PasswordStrength';
 
 // Page
@@ -122,8 +121,8 @@ export function SignUpForm() {
     <Flex h="100%" mih="100%">
       <Paper className={classes.form} w="100%" maw={600} mih="100vh" radius={0} p={80}>
         <Box h="100%">
-          <Box w={30} component="a" href="/" className={classes.logo}>
-            <NextImage src={Logo} />
+          <Box className={classes.logo}>
+            <NavbarLogo size={12} logoText="Meal Week" />
           </Box>
           <Flex h="100%" justify="center" direction="column">
             <Title order={2} className={classes.titleForm} align="center" mt="md" mb={50}>

@@ -28,7 +28,6 @@ const data = [
 export default function DashboardNavbar(props: NavbarProps) {
   const { classes, cx } = useStyles();
   const user = useUserContext();
-
   const [active, setActive] = useState('Dashboard');
 
   const links = data.map((item) => (
@@ -50,7 +49,7 @@ export default function DashboardNavbar(props: NavbarProps) {
     <Navbar {...props} width={{ sm: 300 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <NavbarLogo size={30} logoText="Meal Week" version="v1.0.0" />
+          <NavbarLogo size={30} logoText="Meal Week" />
           <ColorSchemeToggle />
         </Group>
         {links}

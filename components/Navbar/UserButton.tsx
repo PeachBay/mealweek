@@ -62,6 +62,9 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
     <div>
       <Modal
         centered
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={5}
         opened={modalToDelete}
         onClose={() => setModalToDelete(false)}
         styles={{
@@ -86,12 +89,12 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
         </Flex>
 
         <Group position="right">
-          <Button variant="outline" color="gray" onClick={() => setModalToDelete(false)}>
+          <Button variant="default" color="gray" onClick={() => setModalToDelete(false)}>
             Cancel
           </Button>
 
           <Button color="red" onClick={deleteAccount}>
-            Delete
+            Delete my account
           </Button>
         </Group>
       </Modal>

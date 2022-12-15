@@ -13,12 +13,11 @@ import {
   Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import NextImage from 'next/image';
 
 // Component & Assets
 import useStyles from './AuthenticationForm.styles';
 import { GoogleIcon } from '../SocialButtons/GoogleIcon';
-import Logo from '../../public/favicon.svg';
+import NavbarLogo from '../Navbar/NavbarLogo';
 
 // Lib
 import { signInWithGoogle, signInEmailAndPassword } from '../../lib/firebase';
@@ -42,12 +41,10 @@ export function AuthenticationForm() {
     <Flex h="100%" mih="100%">
       <Paper className={classes.form} w="100%" maw={600} mih="100vh" radius={0} p={80}>
         <Box h="100%">
-          <Box w={30} component="a" href="/" className={classes.logo}>
-            <NextImage src={Logo} />
-          </Box>
+          <NavbarLogo size={30} logoText="Meal Week" />
           <Flex h="100%" justify="center" direction="column">
             <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
-              Welcome back to MealWeek!
+              Welcome back!
             </Title>
 
             <Group grow mb="md" mt="md">
