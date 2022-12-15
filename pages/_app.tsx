@@ -6,9 +6,14 @@ import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+
+// Lib
+import { Manrope } from '@next/font/google';
 import initAuth from '../lib/initAuth';
 
 initAuth();
+
+const manrope = Manrope({ subsets: ['latin'] });
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -40,7 +45,15 @@ export default function App(props: AppPropsWithLayout) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+        <MantineProvider
+          theme={{
+            colorScheme,
+            fontFamily: manrope.style.fontFamily,
+            headings: { fontFamily: manrope.style.fontFamily },
+          }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
           <NotificationsProvider position="top-center">
             {getLayout(<Component {...pageProps} />)}
           </NotificationsProvider>

@@ -1,6 +1,5 @@
 import { Grid, Container } from '@mantine/core';
 import DashboardNavbar from '../Navbar/DashboardNavbar';
-import { TopHeader } from '../TopHeader/TopHeader';
 import { UserContextProvider } from '../../lib/UserContext';
 
 type DashboardLayoutProps = {
@@ -16,9 +15,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </Grid.Col>
         <Grid.Col span="auto">
           <Grid gutter={0}>
-            <Grid.Col span={12}>
-              <TopHeader>{children}</TopHeader>
-            </Grid.Col>
             <Grid.Col span={12}>
               <Container my="md" fluid px="xl">
                 {children}
