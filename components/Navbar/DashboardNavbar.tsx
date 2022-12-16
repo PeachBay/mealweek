@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Navbar, NavbarProps, Group, MediaQuery } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Navbar, NavbarProps, Group } from '@mantine/core';
 import {
   IconCategory,
   IconSunglasses,
@@ -11,6 +10,7 @@ import {
 
 // Lib
 import { useUserContext } from '../../lib/UserContext';
+import { useBreakpoints } from '../../lib/useBreakpoint';
 import useStyles from './DashboardNavbar.styles';
 
 // Components
@@ -30,7 +30,7 @@ export default function DashboardNavbar(props: NavbarProps) {
   const { classes, cx } = useStyles();
   const user = useUserContext();
   const [active, setActive] = useState('Dashboard');
-  const matches = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false });
+  const { matches } = useBreakpoints();
 
   const links = data.map((item) => (
     <a
@@ -50,10 +50,10 @@ export default function DashboardNavbar(props: NavbarProps) {
   return (
     <Navbar {...props} width={{ md: 260 }} p="md">
       <Navbar.Section grow>
-        {!matches && (
-          <Group className={classes.header} position="apart">
+        {!matches.max.sm && (
+          <Group className={classes.header} position="apart" align="flex-start">
             <NavbarLogo size={30} logoText="Meal Week" version />
-            <ColorSchemeToggle />
+            <ColorSchemeToggle mt={5} />
           </Group>
         )}
         {links}
