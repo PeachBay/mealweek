@@ -53,7 +53,7 @@ export default function DashboardNavbar(props: NavbarProps) {
         {!matches.max.sm && (
           <Group className={classes.header} position="apart" align="flex-start">
             <NavbarLogo size={30} logoText="Meal Week" version />
-            <ColorSchemeToggle mt={5} />
+            <ColorSchemeToggle mt={2} />
           </Group>
         )}
         {links}
