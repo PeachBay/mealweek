@@ -1,34 +1,36 @@
 import { useState } from 'react';
-import { Navbar, NavbarProps, Group, Code } from '@mantine/core';
+import { Navbar, NavbarProps, Group, MediaQuery } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
-  IconLogout,
+  IconCategory,
+  IconSunglasses,
+  IconChefHat,
+  IconBaguette,
+  IconCalendarEvent,
 } from '@tabler/icons';
-import Image from 'next/image';
-import { signOutHandle } from '../../lib/firebase';
+
+// Lib
+import { useUserContext } from '../../lib/UserContext';
 import useStyles from './DashboardNavbar.styles';
-import MantineLogo from '../../public/MantineLogo.svg';
+
+// Components
+import { UserButton } from './UserButton';
+import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
+import NavbarLogo from './NavbarLogo';
 
 const data = [
-  { link: '', label: 'Notifications', icon: IconBellRinging },
-  { link: '', label: 'Billing', icon: IconReceipt2 },
-  { link: '', label: 'Security', icon: IconFingerprint },
-  { link: '', label: 'SSH Keys', icon: IconKey },
-  { link: '', label: 'Databases', icon: IconDatabaseImport },
-  { link: '', label: 'Authentication', icon: Icon2fa },
-  { link: '', label: 'Other Settings', icon: IconSettings },
+  { link: '', label: 'Dashboard', icon: IconCategory },
+  { link: '', label: 'Explore', icon: IconSunglasses },
+  { link: '', label: 'My recipes', icon: IconChefHat },
+  { link: '', label: 'My planner', icon: IconCalendarEvent },
+  { link: '', label: 'My groceries', icon: IconBaguette },
 ];
 
 export default function DashboardNavbar(props: NavbarProps) {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState('Billing');
+  const user = useUserContext();
+  const [active, setActive] = useState('Dashboard');
+  const matches = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false });
 
   const links = data.map((item) => (
     <a
@@ -46,25 +48,23 @@ export default function DashboardNavbar(props: NavbarProps) {
   ));
 
   return (
-    <Navbar {...props} width={{ sm: 300 }} p="md">
+    <Navbar {...props} width={{ md: 260 }} p="md">
       <Navbar.Section grow>
-        <Group className={classes.header} position="apart">
-          <Image src={MantineLogo} />
-          <Code sx={{ fontWeight: 700 }}>v3.1.2</Code>
-        </Group>
+        {!matches && (
+          <Group className={classes.header} position="apart">
+            <NavbarLogo size={30} logoText="Meal Week" version />
+            <ColorSchemeToggle />
+          </Group>
+        )}
         {links}
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a href="#" className={classes.link}>
-          <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-          <span>Change account</span>
-        </a>
-
-        <a href="#" className={classes.link} onClick={() => signOutHandle()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
-        </a>
+        <UserButton
+          image={user.user?.photoURL}
+          name={user.username ? user.username : user.user?.displayName}
+          email={user.user?.email}
+        />
       </Navbar.Section>
     </Navbar>
   );
