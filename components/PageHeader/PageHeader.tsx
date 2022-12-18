@@ -1,6 +1,5 @@
 import { Box, createStyles, Group, Text, Title } from '@mantine/core';
 import React from 'react';
-import { useBreakpoints } from '../../lib/useBreakpoint';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

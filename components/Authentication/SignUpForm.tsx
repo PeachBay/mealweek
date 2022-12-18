@@ -122,11 +122,11 @@ export function SignUpForm() {
       <Paper className={classes.form} w="100%" maw={600} mih="100vh" radius={0} p={80}>
         <Box h="100%">
           <Box className={classes.logo}>
-            <NavbarLogo size={12} logoText="Meal Week" />
+            <NavbarLogo size={30} logoText="Meal Week" version />
           </Box>
           <Flex h="100%" justify="center" direction="column">
             <Title order={2} className={classes.titleForm} align="center" mt="md" mb={50}>
-              Join MealWeek
+              Create an account
             </Title>
 
             <form>
@@ -191,6 +191,7 @@ export function SignUpForm() {
                 label="Has at least 6 characters"
                 meets={form.values.password.length > 5}
               />
+
               {checks}
 
               <Button
@@ -238,9 +239,10 @@ export function SignUpForm() {
         <Container size="xl" h="100%">
           <Flex h="100%" justify="center" direction="column">
             <Title className={classes.title}>
-              Add your <span className={classes.highlight}>recipes</span> and let us
+              Add your <span className={classes.highlight}>recipes</span> or
+              <span className={classes.highlight}>share</span> them
               <br />
-              <span className={classes.highlight}>plan</span> your meal for you!
+              and let us <span className={classes.highlight}>plan</span> your meal for you!
             </Title>
             <Text color="dimmed" mt="md">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat tortor{' '}
@@ -259,7 +261,7 @@ export function SignUpForm() {
               }
             >
               <List.Item>
-                <b>It&apos;s free!</b> – no trial, no subscription :)
+                <b>Over 2.3M recipes</b> – find new inspiration!
               </List.Item>
               <List.Item>
                 <b>Keep your recipes</b> – all recipes in one page, easy to share

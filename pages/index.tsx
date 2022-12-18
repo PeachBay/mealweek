@@ -7,16 +7,15 @@ import DefaultLayout from '../components/Layout/DefaultLayout';
 import type { NextPageWithLayout } from './_app';
 
 // Components
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { HeroBullets } from '../components/HeroBullets/HeroBullets';
+import { EmptyState } from '../components/EmptyState/EmptyState';
 
 // Page
 const HomePage: NextPageWithLayout = () => (
   <>
-    <Welcome />
-    <ColorSchemeToggle />
-    <HeroBullets />
+    <EmptyState
+      title="This page is coming soon."
+      description="We are currently building the landing page. Coming soon! Until then, you can register or login to the dashboard."
+    />
   </>
 );
 

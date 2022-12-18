@@ -50,6 +50,21 @@ export default function App(props: AppPropsWithLayout) {
             colorScheme,
             fontFamily: manrope.style.fontFamily,
             headings: { fontFamily: manrope.style.fontFamily },
+            colors: {
+              mwteal: [
+                '#e6fcf5',
+                '#c3fae8',
+                '#96f2d7',
+                '#63e6be',
+                '#38d9a9',
+                '#20c997',
+                '#12b886',
+                '#0ca678',
+                '#099268',
+                '#087f5b',
+              ],
+            },
+            primaryColor: 'mwteal',
           }}
           withGlobalStyles
           withNormalizeCSS

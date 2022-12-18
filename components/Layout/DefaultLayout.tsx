@@ -77,15 +77,9 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
 
   return (
     <>
-      <header>
-        <Container size="xl">
-          <DefaultNavbar />
-        </Container>
-      </header>
       <main>
         <Container size="xl">{children}</Container>
       </main>
-      <Footer data={data.data} />
     </>
   );
 }

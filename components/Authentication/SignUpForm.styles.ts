@@ -2,8 +2,6 @@ import { createStyles } from '@mantine/core';
 
 export default createStyles((theme) => ({
   logo: {
-    display: 'block',
-    position: 'absolute',
   },
 
   form: {

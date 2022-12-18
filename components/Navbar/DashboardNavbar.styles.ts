@@ -48,8 +48,7 @@ export default createStyles((theme, _params, getRef) => {
 
     linkActive: {
       '&, &:hover': {
-        backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-          .background,
+        backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
         color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
         [`& .${icon}`]: {
           color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,

@@ -10,7 +10,7 @@ import {
 
 // Lib
 import { useUserContext } from '../../lib/UserContext';
-import { useBreakpoints } from '../../lib/useBreakpoint';
+import { useBreakpoints } from '../../lib/useBreakpoints';
 import useStyles from './DashboardNavbar.styles';
 
 // Components
@@ -48,7 +48,7 @@ export default function DashboardNavbar(props: NavbarProps) {
   ));
 
   return (
-    <Navbar {...props} width={{ md: 260 }} p="md">
+    <Navbar {...props} width={{ md: 300 }} p="md">
       <Navbar.Section grow>
         {!matches.max.sm && (
           <Group className={classes.header} position="apart" align="flex-start">
