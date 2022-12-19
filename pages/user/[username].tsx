@@ -3,16 +3,16 @@ import { withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-au
 
 // Layout
 import type { ReactElement } from 'react';
-import DashboardLayout from '../components/Layout/DashboardLayout';
-import type { NextPageWithLayout } from './_app';
+import DashboardLayout from '../../components/Layout/DashboardLayout';
+import type { NextPageWithLayout } from '../_app';
 
 // Components
-import { PageHeader } from '../components/PageHeader/PageHeader';
-import { EmptyState } from '../components/EmptyState/EmptyState';
+import { PageHeader } from '../../components/PageHeader/PageHeader';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 
 // Page
 const DashboardPage: NextPageWithLayout = () => (
-  <PageHeader title="Your dashboard">
+  <PageHeader title="User Page">
     <EmptyState
       title="No content yet"
       description="We are currently building the feature, it's coming soon!"

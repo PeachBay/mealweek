@@ -41,7 +41,7 @@ export function AuthenticationForm() {
     <Flex h="100%" mih="100%">
       <Paper className={classes.form} w="100%" maw={600} mih="100vh" radius={0} p={80}>
         <Box h="100%">
-          <NavbarLogo size={30} logoText="Meal Week" />
+          <NavbarLogo size={30} logoText="Meal Week" version />
           <Flex h="100%" justify="center" direction="column">
             <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
               Welcome back!
