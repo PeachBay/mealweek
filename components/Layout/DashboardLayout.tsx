@@ -27,7 +27,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             },
           }}
           navbarOffsetBreakpoint="sm"
-          navbar={<DashboardNavbar hiddenBreakpoint="md" hidden={!opened} />}
+          navbar={
+            <DashboardNavbar hiddenBreakpoint="md" hidden={!opened}>
+              {children}
+            </DashboardNavbar>
+          }
           header={matches && <DashboardHeader opened={opened} setOpened={setOpened} />}
         >
           <Container fluid px="md">
