@@ -3,9 +3,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from './firebase';
 
-// create context
+// create interface
 interface UserContextInterface {
-  user: object | null | undefined;
+  [key: string]: any;
   username: string | null | undefined;
 }
 
