@@ -133,7 +133,11 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
           <Menu.Item icon={<IconUser size={14} color={theme.colors.yellow[6]} stroke={1.5} />}>
             Profile
           </Menu.Item>
-          <Menu.Item icon={<IconSettings size={14} color={theme.colors.blue[6]} stroke={1.5} />}>
+          <Menu.Item
+            icon={<IconSettings size={14} color={theme.colors.blue[6]} stroke={1.5} />}
+            component="a"
+            href="/dashboard/settings"
+          >
             Settings
           </Menu.Item>
 

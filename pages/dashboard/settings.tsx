@@ -3,16 +3,16 @@ import { withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-au
 
 // Layout
 import type { ReactElement } from 'react';
-import DashboardLayout from '../components/Layout/DashboardLayout';
-import type { NextPageWithLayout } from './_app';
+import DashboardLayout from '../../components/Layout/DashboardLayout';
+import type { NextPageWithLayout } from '../_app';
 
 // Components
-import { PageHeader } from '../components/PageHeader/PageHeader';
-import { EmptyState } from '../components/EmptyState/EmptyState';
+import { PageHeader } from '../../components/PageHeader/PageHeader';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 
 // Page
-const DashboardPage: NextPageWithLayout = () => (
-  <PageHeader title="Your dashboard">
+const SettingsPage: NextPageWithLayout = () => (
+  <PageHeader title="Settings">
     <EmptyState
       title="No content yet"
       description="We are currently building the feature, it's coming soon!"
@@ -20,7 +20,7 @@ const DashboardPage: NextPageWithLayout = () => (
   </PageHeader>
 );
 
-DashboardPage.getLayout = function getLayout(page: ReactElement) {
+SettingsPage.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
@@ -30,4 +30,4 @@ export const getServerSideProps = withAuthUserTokenSSR({
 
 export default withAuthUser({
   whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-})(DashboardPage);
+})(SettingsPage);

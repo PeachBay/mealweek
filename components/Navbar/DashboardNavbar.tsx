@@ -19,11 +19,11 @@ import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import NavbarLogo from './NavbarLogo';
 
 const data = [
-  { link: '', label: 'Dashboard', icon: IconCategory },
-  { link: '', label: 'Explore', icon: IconSunglasses },
-  { link: '', label: 'My recipes', icon: IconChefHat },
-  { link: '', label: 'My planner', icon: IconCalendarEvent },
-  { link: '', label: 'My groceries', icon: IconBaguette },
+  { link: '/dashboard', label: 'Dashboard', icon: IconCategory },
+  { link: '/explore', label: 'Explore', icon: IconSunglasses },
+  { link: '/user/recipes', label: 'My recipes', icon: IconChefHat },
+  { link: '/user/planner', label: 'My planner', icon: IconCalendarEvent },
+  { link: '/user/groceries', label: 'My groceries', icon: IconBaguette },
 ];
 
 export default function DashboardNavbar(props: NavbarProps) {
