@@ -11,7 +11,7 @@ import { PageHeader } from '../../components/PageHeader/PageHeader';
 import { EmptyState } from '../../components/EmptyState/EmptyState';
 
 // Page
-const DashboardPage: NextPageWithLayout = () => (
+const UserPage: NextPageWithLayout = () => (
   <PageHeader title="User Page">
     <EmptyState
       title="No content yet"
@@ -20,7 +20,7 @@ const DashboardPage: NextPageWithLayout = () => (
   </PageHeader>
 );
 
-DashboardPage.getLayout = function getLayout(page: ReactElement) {
+UserPage.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
@@ -30,4 +30,4 @@ export const getServerSideProps = withAuthUserTokenSSR({
 
 export default withAuthUser({
   whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-})(DashboardPage);
+})(UserPage);

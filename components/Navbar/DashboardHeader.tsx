@@ -4,7 +4,7 @@ import { Group, Header, Burger, useMantineTheme } from '@mantine/core';
 import NavbarLogo from './NavbarLogo';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 
-export default function DashboardHeader({ opened, setOpened }) {
+export const DashboardHeader = ({ opened, setOpened }) => {
   const theme = useMantineTheme();
   const handleClick = () => {
     setOpened((o) => !o);
@@ -27,4 +27,4 @@ export default function DashboardHeader({ opened, setOpened }) {
       </Group>
     </Header>
   );
-}
+};

@@ -4,7 +4,7 @@ import { useMediaQuery } from '@mantine/hooks';
 
 // Components
 import DashboardNavbar from '../Navbar/DashboardNavbar';
-import DashboardHeader from '../Navbar/DashboardHeader';
+import { DashboardHeader } from '../Navbar/DashboardHeader';
 import { UserContextProvider } from '../../lib/UserContext';
 
 interface DashboardLayoutProps {
@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           }
           header={matches && <DashboardHeader opened={opened} setOpened={setOpened} />}
         >
-          <Container fluid px="md">
+          <Container fluid px={matches ? 'xs' : 'md'}>
             {children}
           </Container>
         </AppShell>

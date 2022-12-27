@@ -144,7 +144,11 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
           <Menu.Divider />
 
           <Menu.Label>Danger zone</Menu.Label>
-          <Menu.Item icon={<IconLogout size={14} stroke={1.5} />} onClick={() => signOutHandle()}>
+          <Menu.Item
+            color="red"
+            icon={<IconLogout size={14} stroke={1.5} />}
+            onClick={() => signOutHandle()}
+          >
             Logout
           </Menu.Item>
           <Menu.Item
