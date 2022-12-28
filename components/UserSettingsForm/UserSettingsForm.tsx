@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { Title, Text, Box, TextInput, SimpleGrid, Group, Button, Avatar } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 // Component & Assets
+import { DeleteModal } from '../ModalContent/DeleteModal';
 
 // Lib
 import { useUserContext } from '../../lib/UserContext';
 
 export function UserSettingsForm() {
   const user = useUserContext();
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -18,7 +21,7 @@ export function UserSettingsForm() {
     validateInputOnChange: true,
     validate: {
       name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
-      username: (value) => (value.length < 2 ? 'Username must have at least 2 letters' : null),
+      username: (value) => (value.length < 3 ? 'Username must have at least 3 letters' : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
@@ -79,10 +82,30 @@ export function UserSettingsForm() {
       </Box>
 
       <Box>
-        <Title order={3}>Account</Title>
+        <Title order={3}>Back up my recipes</Title>
         <Text c="dimmed" fz="sm">
-          Manage how information is displayed on your account.
+          Get all your recipes into .json file.
         </Text>
+      </Box>
+
+      <Box mt="lg" mb={50}>
+        <Button variant="subtle" color="teal" size="xs">
+          Get my .json data
+        </Button>
+      </Box>
+
+      <Box>
+        <Title order={3}>Delete my account</Title>
+        <Text c="dimmed" fz="sm">
+          Once you delete your account, you will lose all data associated with it.
+        </Text>
+      </Box>
+
+      <Box mt="lg" mb={50}>
+        <DeleteModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
+        <Button variant="subtle" color="red" size="xs" onClick={() => setDeleteModal(true)}>
+          Delete my account
+        </Button>
       </Box>
     </>
   );

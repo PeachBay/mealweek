@@ -1,30 +1,20 @@
 import { useState } from 'react';
 import {
-  Flex,
   Avatar,
   Group,
   Text,
   Menu,
-  Modal,
-  Title,
-  Button,
-  ThemeIcon,
-  Box,
   createStyles,
   UnstyledButton,
   UnstyledButtonProps,
 } from '@mantine/core';
-import {
-  IconLogout,
-  IconSettings,
-  IconUser,
-  IconTrash,
-  IconChevronRight,
-  IconAlertTriangle,
-} from '@tabler/icons';
+import { IconLogout, IconSettings, IconUser, IconTrash, IconChevronRight } from '@tabler/icons';
+
+// Component & Assets
+import { DeleteModal } from '../ModalContent/DeleteModal';
 
 // Lib
-import { signOutHandle, deleteAccount } from '../../lib/firebase';
+import { signOutHandle } from '../../lib/firebase';
 
 // Props
 interface UserButtonProps extends UnstyledButtonProps {
@@ -56,49 +46,10 @@ const useStyles = createStyles((theme) => ({
 export function UserButton({ image, name, email, icon, ...others }: UserButtonProps) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const [modalToDelete, setModalToDelete] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   return (
-    <div>
-      <Modal
-        centered
-        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
-        overlayOpacity={0.55}
-        overlayBlur={5}
-        opened={modalToDelete}
-        onClose={() => setModalToDelete(false)}
-        styles={{
-          header: { position: 'absolute', top: '20px', right: '20px' },
-        }}
-      >
-        <Flex gap="md">
-          <ThemeIcon radius="xl" size="xl" color="red">
-            <IconAlertTriangle />
-          </ThemeIcon>
-
-          <Box>
-            <Title order={3} mb={10}>
-              Delete my account
-            </Title>
-
-            <Text mb={15} c="dimmed" size="sm">
-              Are you sure you want to delete your account? All of your data will be permanently
-              removed. This action cannot be undone.
-            </Text>
-          </Box>
-        </Flex>
-
-        <Group position="right">
-          <Button variant="default" color="gray" onClick={() => setModalToDelete(false)}>
-            Cancel
-          </Button>
-
-          <Button color="red" onClick={deleteAccount}>
-            Delete my account
-          </Button>
-        </Group>
-      </Modal>
-
+    <>
       <Menu
         width={260}
         position="right-end"
@@ -154,12 +105,13 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
           <Menu.Item
             color="red"
             icon={<IconTrash size={14} stroke={1.5} />}
-            onClick={() => setModalToDelete(true)}
+            onClick={() => setDeleteModal(true)}
           >
             Delete account
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-    </div>
+      <DeleteModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
+    </>
   );
 }
