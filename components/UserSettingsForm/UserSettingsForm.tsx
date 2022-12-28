@@ -3,7 +3,7 @@ import { Title, Text, Box, TextInput, SimpleGrid, Group, Button, Avatar } from '
 import { useForm } from '@mantine/form';
 
 // Component & Assets
-import { DeleteModal } from '../ModalContent/DeleteModal';
+import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 // Lib
 import { useUserContext } from '../../lib/UserContext';
@@ -89,7 +89,7 @@ export function UserSettingsForm() {
       </Box>
 
       <Box mt="lg" mb={50}>
-        <Button variant="subtle" color="teal" size="xs">
+        <Button variant="subtle" color="teal" size="xs" disabled>
           Get my .json data
         </Button>
       </Box>
@@ -102,7 +102,7 @@ export function UserSettingsForm() {
       </Box>
 
       <Box mt="lg" mb={50}>
-        <DeleteModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
+        <DeleteAccountModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
         <Button variant="subtle" color="red" size="xs" onClick={() => setDeleteModal(true)}>
           Delete my account
         </Button>

@@ -11,7 +11,7 @@ import {
 import { IconLogout, IconSettings, IconUser, IconTrash, IconChevronRight } from '@tabler/icons';
 
 // Component & Assets
-import { DeleteModal } from '../ModalContent/DeleteModal';
+import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 // Lib
 import { signOutHandle } from '../../lib/firebase';
@@ -111,7 +111,7 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <DeleteModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
+      <DeleteAccountModal setState={deleteModal} onSetState={() => setDeleteModal(false)} />
     </>
   );
 }

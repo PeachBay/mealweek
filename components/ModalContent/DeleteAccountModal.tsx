@@ -20,7 +20,7 @@ interface ModalStateProps {
   onSetState: () => void;
 }
 
-export function DeleteModal({ setState, onSetState }: ModalStateProps) {
+export function DeleteAccountModal({ setState, onSetState }: ModalStateProps) {
   const theme = useMantineTheme();
 
   return (
