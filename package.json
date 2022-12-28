@@ -34,7 +34,7 @@
     "embla-carousel-react": "^7.0.5",
     "eslint-config-next": "^13.0.7",
     "firebase": "^9.13.0",
-    "firebase-admin": "^11.3.0",
+    "firebase-admin": "^11.4.1",
     "lodash.debounce": "^4.0.8",
     "lodash.every": "^4.6.0",
     "next": "^13.0.7",
