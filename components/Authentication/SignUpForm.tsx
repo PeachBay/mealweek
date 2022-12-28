@@ -49,7 +49,7 @@ export function SignUpForm() {
       name: values.name.length < 2 ? 'Name must have at least 2 letters' : null,
       username:
         values.username.length < 3
-          ? 'Username must have at least 2 letters'
+          ? 'Username must have at least 3 letters'
           : usernameValid
           ? 'Your username is not available'
           : null,
