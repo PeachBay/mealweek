@@ -1,30 +1,70 @@
-import { useState } from 'react';
-import { Title, Text, Box, TextInput, SimpleGrid, Group, Button, Avatar } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import {
+  Title,
+  Text,
+  Box,
+  TextInput,
+  SimpleGrid,
+  Group,
+  Button,
+  Avatar,
+  FileInput,
+} from '@mantine/core';
+import { IconUpload } from '@tabler/icons';
 import { useForm } from '@mantine/form';
+
+// Lib
+import { ref, uploadBytes } from 'firebase/storage';
+import { useUploadFile } from 'react-firebase-hooks/storage';
+import { useUserContext } from '../../lib/UserContext';
+import { storage } from '../../lib/firebase';
 
 // Component & Assets
 import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
-
-// Lib
-import { useUserContext } from '../../lib/UserContext';
 
 export function UserSettingsForm() {
   const user = useUserContext();
   const [deleteModal, setDeleteModal] = useState(false);
 
+  // Upload file
+  const [uploadFile, uploading, snapshot, error] = useUploadFile();
+  const storageRef = ref(storage, 'avatars');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const upload = async () => {
+    if (selectedFile) {
+      const result = await uploadFile(storageRef, selectedFile, {
+        contentType: 'image/jpeg',
+      });
+      alert(`Result: ${JSON.stringify(result)}`);
+    }
+  };
+
   const form = useForm({
     initialValues: {
       name: '',
-      username: '',
       email: '',
     },
     validateInputOnChange: true,
     validate: {
       name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
-      username: (value) => (value.length < 3 ? 'Username must have at least 3 letters' : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
+
+  useEffect(() => {
+    if (user.user) {
+      form.setValues({
+        name: user.user.displayName,
+        email: user.user.email,
+      });
+    }
+  }, [user]);
+
+  const handleSubmit = () => {
+    upload();
+    console.log('form submited');
+  };
 
   return (
     <>
@@ -36,7 +76,7 @@ export function UserSettingsForm() {
       </Box>
 
       <Box mt="lg" mb={50}>
-        <form onSubmit={form.onSubmit(() => {})}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
           <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
             <TextInput
               label="Name"
@@ -50,7 +90,6 @@ export function UserSettingsForm() {
               name="username"
               variant="filled"
               disabled
-              {...form.getInputProps('username')}
             />
             <TextInput
               label="Email"
@@ -63,18 +102,28 @@ export function UserSettingsForm() {
                 Photo
               </Text>
               <Group>
-                <Avatar src={user.user?.photoURL} size={30} radius={30} />
-                <Button variant="outline" color="teal" size="xs">
-                  Change
-                </Button>
+                {!selectedFile && <Avatar src={user.user?.photoURL} size={30} radius={30} />}
+                {selectedFile && (
+                  <Avatar src={URL.createObjectURL(selectedFile)} size={30} radius={30} />
+                )}
+
+                <FileInput
+                  placeholder="Change"
+                  icon={<IconUpload size={14} />}
+                  accept="image/png,image/jpeg"
+                  value={selectedFile}
+                  onChange={setSelectedFile}
+                  size="xs"
+                />
+
                 <Button variant="subtle" color="red" size="xs">
-                  Remove
+                  Remove photo from database
                 </Button>
               </Group>
             </Box>
           </SimpleGrid>
           <Group position="right">
-            <Button color="teal" mt={20}>
+            <Button type="submit" color="teal" mt={20}>
               Save change
             </Button>
           </Group>
