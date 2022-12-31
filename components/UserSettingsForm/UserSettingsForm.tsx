@@ -14,37 +14,26 @@ import { IconUpload } from '@tabler/icons';
 import { useForm } from '@mantine/form';
 
 // Lib
-import { ref, uploadBytes } from 'firebase/storage';
-import { useUploadFile } from 'react-firebase-hooks/storage';
 import { useUserContext } from '../../lib/UserContext';
-import { storage } from '../../lib/firebase';
+import { uploadPhotoUser } from '../../lib/firebase';
 
 // Component & Assets
 import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 export function UserSettingsForm() {
   const user = useUserContext();
+  const [userSettings, setUserSettings] = useState({
+    name: '',
+    email: '',
+    photoUrl: '',
+  });
   const [deleteModal, setDeleteModal] = useState(false);
 
   // Upload file
-  const [uploadFile, uploading, snapshot, error] = useUploadFile();
-  const storageRef = ref(storage, 'avatars');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const upload = async () => {
-    if (selectedFile) {
-      const result = await uploadFile(storageRef, selectedFile, {
-        contentType: 'image/jpeg',
-      });
-      alert(`Result: ${JSON.stringify(result)}`);
-    }
-  };
-
   const form = useForm({
-    initialValues: {
-      name: '',
-      email: '',
-    },
+    initialValues: userSettings,
     validateInputOnChange: true,
     validate: {
       name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
@@ -54,16 +43,21 @@ export function UserSettingsForm() {
 
   useEffect(() => {
     if (user.user) {
-      form.setValues({
+      setUserSettings({
         name: user.user.displayName,
         email: user.user.email,
+        photoUrl: '',
       });
+      form.setValues(userSettings);
     }
   }, [user]);
 
   const handleSubmit = () => {
-    upload();
-    console.log('form submited');
+    if (selectedFile) {
+      uploadPhotoUser(user, selectedFile, userSettings, setUserSettings);
+      setSelectedFile(null);
+      console.log('form submited');
+    }
   };
 
   return (
