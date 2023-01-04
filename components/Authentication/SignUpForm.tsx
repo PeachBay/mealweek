@@ -54,7 +54,7 @@ export function SignUpForm() {
           ? 'Your username is not available'
           : null,
       email: /^\S+@\S+$/.test(values.email) ? null : 'Invalid email',
-      password: passwordMeets ? null : 'Your password is too weak',
+      password: passwordMeets ? 'Your password is too weak' : null,
     }),
   });
 
@@ -198,7 +198,7 @@ export function SignUpForm() {
                 fullWidth
                 mt="xl"
                 size="md"
-                disabled={!form.isValid()}
+                disabled={form.isValid()}
                 onClick={() =>
                   signUpWithEmailAndPassword(
                     form.values.name,
