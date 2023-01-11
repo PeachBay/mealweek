@@ -3,6 +3,8 @@ import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 
 // Layout
 import type { ReactElement } from 'react';
+import { Button, Center } from '@mantine/core';
+import { IconLogin } from '@tabler/icons';
 import DefaultLayout from '../components/Layout/DefaultLayout';
 import type { NextPageWithLayout } from './_app';
 
@@ -13,9 +15,15 @@ import { EmptyState } from '../components/EmptyState/EmptyState';
 const HomePage: NextPageWithLayout = () => (
   <>
     <EmptyState
-      title="This page is coming soon."
-      description="We are currently building the landing page. Coming soon! Until then, you can register or login to the dashboard."
+      title="Landing page is under construction."
+      description="We are currently building the landing page. Until then, you can register or login to the dashboard."
     />
+
+    <Center>
+      <Button color="teal" component="a" href="/login" leftIcon={<IconLogin size={14} />}>
+        Login
+      </Button>
+    </Center>
   </>
 );
 
