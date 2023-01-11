@@ -14,7 +14,6 @@ import { IconLogout, IconSettings, IconUser, IconTrash, IconChevronRight } from 
 import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 // Lib
-import { signOutHandle } from '../../lib/firebase';
 
 // Props
 interface UserButtonProps extends UnstyledButtonProps {

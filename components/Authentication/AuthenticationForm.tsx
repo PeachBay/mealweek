@@ -20,7 +20,6 @@ import { GoogleIcon } from '../SocialButtons/GoogleIcon';
 import NavbarLogo from '../Navbar/NavbarLogo';
 
 // Lib
-import { signInWithGoogle, signInEmailAndPassword } from '../../lib/firebase';
 
 export function AuthenticationForm() {
   const { classes } = useStyles();

@@ -23,8 +23,6 @@ import { useForm } from '@mantine/form';
 import { IconX, IconCheck, IconInfoCircle } from '@tabler/icons';
 
 // Lib
-import { doc, getDoc } from 'firebase/firestore';
-import { db, signInWithGoogle, signUpWithEmailAndPassword } from '../../lib/firebase';
 
 // Component & Assets
 import useStyles from './SignUpForm.styles';

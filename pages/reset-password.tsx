@@ -1,9 +1,6 @@
 // Core UI
 import { Container } from '@mantine/core';
 
-// SSR
-import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
-
 // Layout
 import type { ReactElement } from 'react';
 import DefaultLayout from '../components/Layout/DefaultLayout';
@@ -23,5 +20,4 @@ ResetPasswordPage.getLayout = function getLayout(page: ReactElement) {
   return <DefaultLayout>{page}</DefaultLayout>;
 };
 
-export const getServerSideProps = withAuthUserTokenSSR()();
-export default withAuthUser()(ResetPasswordPage);
+export default ResetPasswordPage;

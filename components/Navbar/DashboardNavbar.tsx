@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons';
 
 // Lib
-import { useUserContext } from '../../lib/UserContext';
+//import { useUserContext } from '../../lib/UserContext';
 import { useBreakpoints } from '../../lib/useBreakpoints';
 import useStyles from './DashboardNavbar.styles';
 
@@ -28,7 +28,6 @@ const data = [
 
 export default function DashboardNavbar(props: NavbarProps) {
   const { classes, cx } = useStyles();
-  const user = useUserContext();
   const [active, setActive] = useState('Dashboard');
   const { matches } = useBreakpoints();
 
@@ -56,15 +55,12 @@ export default function DashboardNavbar(props: NavbarProps) {
             <ColorSchemeToggle mt={2} />
           </Group>
         )}
+
         {links}
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <UserButton
-          image={user.user?.photoURL}
-          name={user.username ? user.username : user.user?.displayName}
-          email={user.user?.email}
-        />
+        <UserButton image="" name="" email="" />
       </Navbar.Section>
     </Navbar>
   );

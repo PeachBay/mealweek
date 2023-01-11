@@ -5,7 +5,7 @@ import { useMediaQuery } from '@mantine/hooks';
 // Components
 import DashboardNavbar from '../Navbar/DashboardNavbar';
 import { DashboardHeader } from '../Navbar/DashboardHeader';
-import { UserContextProvider } from '../../lib/UserContext';
+//import { UserContextProvider } from '../../lib/UserContext';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -18,27 +18,24 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <>
-      <UserContextProvider>
-        <AppShell
-          styles={{
-            main: {
-              background:
-                theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-            },
-          }}
-          navbarOffsetBreakpoint="sm"
-          navbar={
-            <DashboardNavbar hiddenBreakpoint="md" hidden={!opened}>
-              {children}
-            </DashboardNavbar>
-          }
-          header={matches && <DashboardHeader opened={opened} setOpened={setOpened} />}
-        >
-          <Container fluid px={matches ? 'xs' : 'md'}>
+      <AppShell
+        styles={{
+          main: {
+            background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+          },
+        }}
+        navbarOffsetBreakpoint="sm"
+        navbar={
+          <DashboardNavbar hiddenBreakpoint="md" hidden={!opened}>
             {children}
-          </Container>
-        </AppShell>
-      </UserContextProvider>
+          </DashboardNavbar>
+        }
+        header={matches && <DashboardHeader opened={opened} setOpened={setOpened} />}
+      >
+        <Container fluid px={matches ? 'xs' : 'md'}>
+          {children}
+        </Container>
+      </AppShell>
     </>
   );
 }

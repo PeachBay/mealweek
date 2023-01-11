@@ -12,7 +12,6 @@ import {
 import { IconAlertTriangle } from '@tabler/icons';
 
 // Lib
-import { deleteAccount } from '../../lib/firebase';
 
 // Props
 interface ModalStateProps {
@@ -57,9 +56,7 @@ export function DeleteAccountModal({ setState, onSetState }: ModalStateProps) {
           Cancel
         </Button>
 
-        <Button color="red" onClick={deleteAccount}>
-          Delete my account
-        </Button>
+        <Button color="red">Delete my account</Button>
       </Group>
     </Modal>
   );

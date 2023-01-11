@@ -1,6 +1,3 @@
-// SSR
-import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
-
 // Layout
 import type { ReactElement } from 'react';
 import DefaultLayout from '../components/Layout/DefaultLayout';
@@ -23,5 +20,4 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   return <DefaultLayout>{page}</DefaultLayout>;
 };
 
-export const getServerSideProps = withAuthUserTokenSSR()();
-export default withAuthUser()(HomePage);
+export default HomePage;

@@ -14,14 +14,11 @@ import { IconUpload } from '@tabler/icons';
 import { useForm } from '@mantine/form';
 
 // Lib
-import { useUserContext } from '../../lib/UserContext';
-import { uploadPhotoUser } from '../../lib/firebase';
 
 // Component & Assets
 import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 export function UserSettingsForm() {
-  const user = useUserContext();
   const [userSettings, setUserSettings] = useState({
     name: '',
     email: '',
@@ -40,17 +37,6 @@ export function UserSettingsForm() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
-
-  useEffect(() => {
-    if (user.user) {
-      setUserSettings({
-        name: user.user.displayName,
-        email: user.user.email,
-        photoUrl: '',
-      });
-      form.setValues(userSettings);
-    }
-  }, [user]);
 
   const handleSubmit = () => {
     if (selectedFile) {
@@ -74,20 +60,20 @@ export function UserSettingsForm() {
           <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
             <TextInput
               label="Name"
-              placeholder={user.user?.displayName}
+              placeholder="name"
               name="name"
               {...form.getInputProps('name')}
             />
             <TextInput
               label="Username"
-              placeholder={user.username}
+              placeholder="Username"
               name="username"
               variant="filled"
               disabled
             />
             <TextInput
               label="Email"
-              placeholder={user.user?.email}
+              placeholder="email"
               name="Email"
               {...form.getInputProps('email')}
             />

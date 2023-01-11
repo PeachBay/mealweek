@@ -1,6 +1,3 @@
-// SSR
-import { withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
-
 // Components
 import { SignUpForm } from '../components/Authentication/SignUpForm';
 
@@ -11,10 +8,4 @@ const SignUpPage = () => (
   </>
 );
 
-export const getServerSideProps = withAuthUserTokenSSR({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-})();
-
-export default withAuthUser({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-})(SignUpPage);
+export default SignUpPage;
