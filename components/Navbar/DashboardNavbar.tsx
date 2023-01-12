@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons';
 
 // Lib
-//import { useUserContext } from '../../lib/UserContext';
+import { useUserContext } from '../../lib/UserContext';
 import { useBreakpoints } from '../../lib/useBreakpoints';
 import useStyles from './DashboardNavbar.styles';
 
@@ -27,6 +27,7 @@ const data = [
 ];
 
 export default function DashboardNavbar(props: NavbarProps) {
+  const user = useUserContext();
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Dashboard');
   const { matches } = useBreakpoints();
@@ -60,7 +61,7 @@ export default function DashboardNavbar(props: NavbarProps) {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <UserButton image="" name="" email="" />
+        <UserButton image={user.avatar} name={user.name} email={user.email} />
       </Navbar.Section>
     </Navbar>
   );

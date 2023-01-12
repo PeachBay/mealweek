@@ -11,6 +11,7 @@ import {
 import { IconLogout, IconSettings, IconUser, IconTrash, IconChevronRight } from '@tabler/icons';
 
 // Component & Assets
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { DeleteAccountModal } from '../ModalContent/DeleteAccountModal';
 
 // Lib
@@ -43,6 +44,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function UserButton({ image, name, email, icon, ...others }: UserButtonProps) {
+  const supabase = useSupabaseClient();
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -97,7 +99,7 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
           <Menu.Item
             color="red"
             icon={<IconLogout size={14} stroke={1.5} />}
-            onClick={() => signOutHandle()}
+            onClick={() => supabase.auth.signOut()}
           >
             Logout
           </Menu.Item>

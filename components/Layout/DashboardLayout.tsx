@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { AppShell, useMantineTheme, Container } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { UserContextProvider } from '../../lib/UserContext';
 
 // Components
 import DashboardNavbar from '../Navbar/DashboardNavbar';
 import { DashboardHeader } from '../Navbar/DashboardHeader';
-//import { UserContextProvider } from '../../lib/UserContext';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const matches = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false });
 
   return (
-    <>
+    <UserContextProvider>
       <AppShell
         styles={{
           main: {
@@ -36,6 +36,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {children}
         </Container>
       </AppShell>
-    </>
+    </UserContextProvider>
   );
 }
